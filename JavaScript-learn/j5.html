@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<button value="btn1" type="button">btn1</button>
+		<button value="btn2" type="button">btn2</button>
+		<input type="text" name="txt1" id="txt1" />
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			$.fn.extend({
+				display: function() {
+					$(this).click(function() {
+						alert($(this).val() || $(this).html());
+					})
+					return this;
+				},
+				log:function(){
+					console.log(alert($(this).val() || $(this).html()));
+					return this;
+				}
+			});
+
+			$("input,button").display().log();
+			
+		</script>
+	</body>
+
+</html>

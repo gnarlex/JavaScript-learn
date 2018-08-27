@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<div><button id="btn1">btn1</button></div>
+		<div><button id="btn2">btn2</button></div>
+		<div><input type="text" id="txt1" /></div>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			;
+			(function(method) {
+				method(window, window.document, jQuery);
+			}(
+				function(win, doc, $) {
+					// 扩展插件名
+					$.fn.superPlus = function(options) {
+						var setting = {
+							width: 3,
+							color: "#000",
+							//事件
+							//点击前
+							before:null,
+							//点击时
+							adding:null,
+							//点击后
+							after:null
+						}
+						$.extend(setting, options);
+						
+						$("<span/>").text(" + ").css({
+							"cursor":"pointer",
+							"color":setting.color
+						}).click(function() {
+							var obj = $(this).prev();
+							if(setting.before)
+							{
+								setting.before(obj,setting,this);
+							}
+							
+							obj.width(obj.width() + setting.width);
+						}).insertAfter(this);
+
+						return this;b 
+					}
+				}
+			));
+
+			$("button,input").superPlus({
+				width: 20,
+				color:"red",
+				before:function(target,setting,plus){
+					console.log("点击前");
+					console.log(target);
+					console.log(setting);
+					console.log(plus);
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

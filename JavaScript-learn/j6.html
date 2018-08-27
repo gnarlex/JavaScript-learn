@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<button id="btn1">btn1</button>
+		<button id="btn2">btn2</button>
+		<input type="text" id="txt1" />
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			;
+			(function(method) {
+				method(window, window.document, jQuery);
+			}(
+				function(win, doc, $) {
+					// 扩展插件名
+					$.fn.testPlug = function() {
+						this.css("color", "red");
+					}
+
+					// 或者可以这样写
+					$.fn.extend({
+						testPlug2: function() {
+							this.css("color", "blue");
+						}
+					});
+				}
+
+			));
+
+			$("button,input").testPlug();
+			$("button").testPlug2();
+		</script>
+	</body>
+
+</html>

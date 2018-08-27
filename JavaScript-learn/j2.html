@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			//构造方法，类，函数
+			function Foo(name) {
+				this.name = name;
+			}
+			Foo.prototype.age = 3;
+			var f1 = new Foo("zhangguo");
+			//console.log(Foo.__proto__);
+
+			var a = {}
+			console.log(a.prototype);
+
+			var person1 = {
+				name: 'cyl',
+				sex: 'male'
+			};
+
+			var person2 = Object.create(person1);
+
+			function foo(a, b) {
+				return a + b;
+			}
+			console.log(foo.prototype);
+			console.log(foo.constructor);
+		</script>
+
+	</body>
+
+</html>
