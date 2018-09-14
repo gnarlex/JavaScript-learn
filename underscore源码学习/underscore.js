@@ -177,20 +177,8 @@
 		_.isFunction = function(obj) {
 			return typeof obj == 'function' || false;
 		};
-	}
-
-	//	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
-	//		_['is' + name] = function(obj) {
-	//			return toString.call(obj) === '[object ' + name + ']';
-	//		};
-	//	});
-
-	//	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
-	//		_['is' + name] = function(obj) {
-	//			return toString.call(obj) === '[object ' + name + ']';
-	//		};
-	//	});
-
+	} 
+	
 	_.iteratee = function() {
 
 	};
@@ -236,10 +224,76 @@
 	 * 对象
 	 */
 
-	_.isMatch = function(object, attrs) {
-		//把attrs的key拆出来, object的拆出来
-		//然后比较 return object[key]==attrs[key]
+	_.isElement = function(obj) {
+		return !!(obj && obj.nodeType === 1);
+	};
 
+	_.isEqual = function(a, b) {
+		return eq(a, b); //eq这逼很恶心
+	};
+
+	// _.isArguments 方法在 IE < 9 下的兼容
+	// IE < 9 下对 arguments 调用 Object.prototype.toString.call 方法
+	// 结果是 => [object Object]
+	// 而并非我们期望的 [object Arguments]。
+	// so 用是否含有 callee 属性来做兼容
+	if(!_.isArguments(arguments)) {
+		_.isArguments = function(obj) {
+			return _.has(obj, 'callee');
+		};
+	}
+	// Optimize `isFunction` if appropriate. Work around some typeof bugs in old v8,
+	// IE 11 (#1621), and in Safari 8 (#1929).
+	// _.isFunction 在 old v8, IE 11 和 Safari 8 下的兼容
+	// 觉得这里有点问题
+	// 我用的 chrome 49 (显然不是 old v8)
+	// 却也进入了这个 if 判断内部
+	if(typeof /./ != 'function' && typeof Int8Array != 'object') {
+		_.isFunction = function(obj) {
+			return typeof obj == 'function' || false;
+		};
+	}
+
+	_.isBoolean = function(obj) {
+		return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
+	};
+
+	_.isNull = function(obj) {
+		return obj === null;
+	};
+
+	_.isUndefined = function(obj) {
+		return obj === void 0; // void 0 恒等于 undefined
+	};
+
+	_.isFinite = function(obj) {
+		return isFinite(obj) && !isNaN(parseFloat(obj));
+	};
+
+	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
+		_['is' + name] = function(obj) {
+			return toString.call(obj) === '[object ' + name + ']';
+		};
+	});
+	// NaN是唯一一个自己不等于自己的
+	_.isNaN = function(obj) {
+		return _.isNumber(obj) && obj !== +obj;
+	}
+
+	_.isMatch = function(object, attrs) {
+		var keys = _.keys(attrs),
+			length = keys.length;
+		if(object == null) return !length;
+		var obj = Object(object);
+		for(var i = 0; i < length; i++) {
+			var key = keys[i];
+			// 如果 obj 对象没有 attrs 对象的某个 key
+			// 或者对于某个 key，它们的 value 值不同
+			// 则证明 object 并不拥有 attrs 的所有键值对
+			// 则返回 false
+			if(attrs[key] !== obj[key] || !(key in obj)) return false;
+		}
+		return true;
 	}
 
 	//用来判断是否IE<9 的环境
@@ -367,17 +421,29 @@
 	_.extendOwn = _.assign = createAssigner(_.keys);
 	_.defaults = createAssigner(_.allKeys, true);
 
-//	_.clone = function(obj) {
-//		if(!_.isObject(obj)) return obj;
-//		return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
-//	}
-
-	_.clone = function(obj,chi) {
-		
-		for (var key in obj) {
-　　　　　　chi[key] = obj[key];
-　　　　　　}
+	// 这应该不是浅拷贝吧
+	_.clone = function(obj) {
+		if(!_.isObject(obj)) return obj;
+		return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
 	}
+
+	_.property = function(key) {
+		return function(obj) {
+			return obj == null ? void 0 : obj[key];
+		};
+	};
+
+	_.propertyOf = function(obj) {
+		return obj == null ? function() {} : function(name) {
+			return obj[name];
+		};
+	};
+
+	_.isEmpty = function(obj) {
+		if(obj == null) return true;
+		if(isArrayLike(obj) && (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) return obj.length === 0;
+		return _.keys(obj).length === 0;
+	};
 
 	_.has = function(obj, key) {
 		return obj != null && hasOwnProperty.call(obj, key);
@@ -413,21 +479,14 @@
 	 * 集合
 	 */
 
-	// 闭包
-	var property = function(key) {
-		return function(obj) {
-			return obj == null ? void 0 : obj[key];
-		};
-	};
-
-	var getLength = property('length'); // 用闭包的方式来进行函数创建, 这个方法不错
+	//var getLength = _.property('length'); // 用闭包的方式来进行函数创建, 这个方法不错
 
 	var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
 
 	//判断是否为类数组对象
 	var isArrayLike = function(collection) {
 		// 返回参数 collection 的 length 属性值
-		var length = getLength(collection); // collection && collection.length;
+		var length = _.property('length')(collection); // collection && collection.length;
 		return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
 	};
 
