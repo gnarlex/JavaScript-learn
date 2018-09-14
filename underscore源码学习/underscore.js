@@ -277,7 +277,6 @@
 		if(hasEnumBug) collectNonEnumProps(obj, keys);
 		return keys;
 	}
-
 	_.allKeys = function(object) {
 		//遍历object, 拆出来属性的名称
 		if(!_.isObject(object)) return [];
@@ -286,6 +285,98 @@
 		for(var key in object) keys.push(key);
 		if(hasEnumBug) collectNonEnumProps(obj, keys);
 		return keys;
+	}
+	_.values = function(obj) {
+		var keys = _.keys(obj);
+		var length = keys.length;
+		var values = Array(length);
+		for(var i = 0; i < length; i++) {
+			values[i] = obj[keys[i]];
+		}
+		return values;
+	}
+
+	_.pairs = function(obj) {
+		var keys = _.keys(obj);
+		var length = keys.length;
+		var pairs = Array(length);
+		for(var i = 0; i < length; i++) {
+			pairs[i] = [keys[i], obj[keys[i]]];
+		}
+		return pairs;
+	}
+
+	_.invert = function(obj) {
+		//		var invert = {};
+		//		var keys = _.keys(obj);
+		//		var values = _.values(obj);
+		//		invert = _.object(values, keys)
+		//		return invert;
+		var result = {};
+		var keys = _.keys(obj);
+		for(var i = 0, length = keys.length; i < length; i++) {
+			result[obj[keys[i]]] = keys[i];
+		}
+		return result;
+	}
+
+	_.functions = _.methods = function(obj) {
+		var names = [];
+		for(var key in obj) {
+			if(_.isFunction(obj[key])) names.push(key);
+		}
+		return names.sort();
+	}
+
+	_.extend = function(des, sour) {
+		var keys = _.keys(sour);
+		for(var key in keys) {
+			des[key] = sour[key];
+		}
+
+		return des;
+	}
+
+	// 分配或复制(经典闭包)
+	var createAssigner = function(keysFunc, undefinedOnly) {
+		return function(obj) {
+			var length = arguments.length;
+			if(length < 2 || obj == null) return obj;
+			for(var index = 1; index < length; index++) {
+				//遍历要复制的键值对
+				var source = arguments[index],
+					keys = keysFunc(source),
+					l = keys.length;
+				for(var i = 0; i < l; i++) {
+					var key = keys[i];
+					/*
+					 * undefined为false或者空时, 会执行语句
+					 * undefined为true时, 当且仅当 obj[key] 为 undefined 时才覆盖
+					 * 如果有相同key值, 则取key首次出现的值
+					 * void 0 === undefined , 防止undefined被重写, 同时是优化的写法 
+					 */
+					if(!undefinedOnly || obj[key] === void 0)
+						obj[key] = source[key];
+				}
+			}
+			return obj;
+		};
+	};
+
+	_.extend = createAssigner(_.allKeys);
+	_.extendOwn = _.assign = createAssigner(_.keys);
+	_.defaults = createAssigner(_.allKeys, true);
+
+//	_.clone = function(obj) {
+//		if(!_.isObject(obj)) return obj;
+//		return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+//	}
+
+	_.clone = function(obj,chi) {
+		
+		for (var key in obj) {
+　　　　　　chi[key] = obj[key];
+　　　　　　}
 	}
 
 	_.has = function(obj, key) {
@@ -309,9 +400,11 @@
 		var type = typeof obj;
 		return type === 'function' || type === 'object' && !!obj;
 	};
+
 	_.isArray = nativeIsArray || function(object) {
 		return toString.call(object) === '[object Array]';
 	};
+
 	_.isNull = function(obj) {
 		return obj === null;
 	};
@@ -338,4 +431,7 @@
 		return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
 	};
 
+	var f1 = function(obj) {
+		console.log(obj);
+	}
 }.call(this));
