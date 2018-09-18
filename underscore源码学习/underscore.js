@@ -84,6 +84,63 @@
 			return func.apply(context, arguments);
 		};
 	};
+
+	var cb = function(value, context, argCount) {
+		if(value == null) return _.identity; //如果value为空, 则返回对象本身
+		if(_.isFunction(value)) return optimizeCb(value, context, argCount); //如果是函数,则返回回调函数
+		if(_.isObject(value)) return _.matcher(value); //如果value是一个对象,则返回k-v比较值
+		return _.property(value); //如果value是一个常量类型, 就返回属性
+	};
+
+	/*
+	 * 集合
+	 */
+
+	//var getLength = _.property('length'); // 用闭包的方式来进行函数创建, 这个方法不错
+
+	var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+
+	//判断是否为类数组对象
+	var isArrayLike = function(collection) {
+		// 返回参数 collection 的 length 属性值
+		var length = collection && collection.length; //_.property('length')(collection); 
+		return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+	};
+
+	_.each = _.forEach = function(object, iteratee, context) {
+		iteratee = optimizeCb(iteratee, context);
+		if(isArrayLike(object)) {
+			for(i = 0, length = object.length; i < length; i++) {
+				iteratee(object[i], i, object);
+			}
+		} else {
+			var keys = _.keys(object);
+			for(i = 0, length = keys.length; i < length; i++) {
+				iteratee(object[keys[i]], keys[i], object);
+			}
+		}
+		return object;
+	}
+
+	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
+		_['is' + name] = function(obj) {
+			return toString.call(obj) === '[object ' + name + ']';
+		};
+	});
+
+	_.map = _.collect = function(object, iteratee, context) {
+		iteratee = cb(iteratee, context);
+		var keys = !isArrayLike(object) && _.keys(object),
+			length = (keys || object).length,
+			results = Array(length);
+
+		for(var index = 0; index < length; index++) {
+			var currentKey = keys ? keys[index] : index;
+			results[index] = iteratee(object[currentKey], currentKey, object);
+		}
+		return results;
+	}
+
 	/*
 	 * 数组函数
 	 */
@@ -150,7 +207,6 @@
 		var rest = flatten(arguments, true, true, 1);
 		//去除重复项
 		//return _.
-
 	};
 
 	_.filter = _.select = function(obj, predicate, context) {
@@ -160,25 +216,13 @@
 		return results;
 	};
 
-	var cb = function(value, context, argCount) {
-		if(value == null) return _.identity;
-		if(_.isFunction(value)) return optimizeCb(value, context, argCount);
-		if(_.isObject(value)) return _.matcher(value);
-		return _.property(value);
-	};
-
-	//默认迭代器
-	_.identity = function(value) {
-		return value;
-	};
-
 	//isFunction 的兼容性处理
 	if(typeof /./ != 'function' && typeof Int8Array != 'object') {
 		_.isFunction = function(obj) {
 			return typeof obj == 'function' || false;
 		};
-	} 
-	
+	}
+
 	_.iteratee = function() {
 
 	};
@@ -270,11 +314,6 @@
 		return isFinite(obj) && !isNaN(parseFloat(obj));
 	};
 
-	_.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Error'], function(name) {
-		_['is' + name] = function(obj) {
-			return toString.call(obj) === '[object ' + name + ']';
-		};
-	});
 	// NaN是唯一一个自己不等于自己的
 	_.isNaN = function(obj) {
 		return _.isNumber(obj) && obj !== +obj;
@@ -476,21 +515,22 @@
 	};
 
 	/*
-	 * 集合
+	 * 实用
 	 */
+	_.noConflict = function() {
+		root._ = previousUnderscore;
+		return this;
+	}
 
-	//var getLength = _.property('length'); // 用闭包的方式来进行函数创建, 这个方法不错
-
-	var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
-
-	//判断是否为类数组对象
-	var isArrayLike = function(collection) {
-		// 返回参数 collection 的 length 属性值
-		var length = _.property('length')(collection); // collection && collection.length;
-		return typeof length == 'number' && length >= 0 && length <= MAX_ARRAY_INDEX;
+	_.identity = function(value) {
+		return value;
 	};
+
+	//默认可选的回调参数
+	_.noop = function() {};
 
 	var f1 = function(obj) {
 		console.log(obj);
 	}
+
 }.call(this));
