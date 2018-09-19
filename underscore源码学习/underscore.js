@@ -141,6 +141,15 @@
 		return results;
 	}
 
+	_.find = function(obj, iteratee, context) {
+		iteratee = cb(iteratee, context); //转换为函数
+		var results=[];
+		for(i = 0; i < obj.length; i++) {
+			if(iteratee(obj[i],i,obj))
+			results.push(obj[i]);
+		}
+	}
+
 	/*
 	 * 数组函数
 	 */
