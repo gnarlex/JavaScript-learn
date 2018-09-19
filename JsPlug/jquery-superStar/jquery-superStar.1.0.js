@@ -29,7 +29,7 @@
 				});
 				star.mouseleave(function() {
 					var parent = star.closest("." + setting.cssClass);
-					parent.find(".starItem").removeClass("full"); 
+					parent.find(".starItem").removeClass("full");
 				});
 			}
 			return this;
