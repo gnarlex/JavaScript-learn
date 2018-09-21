@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8" />
-		<title></title>
+		<title>声明式渲染</title>
 	</head>
+
 	<body>
-		
+		<div id="app1">{{message}}</div>
+		<div id="app2" v-bind:title="message"> {{message}}</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					message: "Hello Vue"
+				}
+			});
+			var app2 = new Vue({
+				el: "#app2",
+				data: {
+					message: "Hello Vue"
+				}
+			});
+		</script>
 	</body>
+
 </html>

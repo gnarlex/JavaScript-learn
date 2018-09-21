@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>条件与循环</title>
+	</head>
+
+	<body>
+		<div id="app1" v-if="isShow">
+			<table border="1" cellspacing="1" cellpadding="1">
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>价格</th>
+				</tr>
+				<tr v-for="(item,index) in fruits">
+					<th>{{index+1}}</th>
+					<th>{{item.name}}</th>
+					<th>{{item.price}}</th>
+				</tr>
+			</table>
+		</div>
+
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					isShow: true,
+					fruits: [{
+						name: "苹果",
+						price: "6.8"
+					}, {
+						name: "橙子",
+						price: "3.5"
+					}, {
+						name: "香蕉",
+						price: "2.3"
+					}]
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>事件交互,处理用户输入和计算</title>
+	</head>
+
+	<body>
+		这里有一个v-model需要注意
+		<div id="app1">
+			<button v-on:click="showMe">{{message}}</button>
+			<input v-model="message" />
+			<!--<button v-on:click="add">+</button> --><button v-on:click="s1=parseInt(s1)+1">+</button><input v-model="s1" /> + <input v-model="s2" /> = <input v-model="sum" />
+		</div>
+
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					message: "vue click",
+					s1: 0,
+					s2: 0
+				},
+				methods: {
+					showMe: function() {
+						this.message = this.message.split('').reverse().join('');
+					},
+					add: function() {
+						return this.s1++;
+					}
+				},
+				computed: {
+					sum: function() {
+						return parseInt(this.s1) + parseInt(this.s2);
+					}
+				}
+
+			});
+		</script>
+	</body>
+
+</html>
