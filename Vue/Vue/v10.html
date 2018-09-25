@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 生命周期 例子1</title>
+
+	</head>
+
+	<body>
+		<div id="app1">
+			<input v-model="msg" />{{msg}}
+			<button type="button" onclick="destroy()">销毁</button>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			//格式化输出
+			console.log("示例：%c%s", "background:red;color:#fff", "vue2生命周期", "开始了");
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					msg: "vue"
+				},
+				beforeCreate: function() {
+					console.log("创建前:" + this.msg);
+				},
+				created: function() {
+					console.log("创建后:" + this.msg);
+				},
+				beforeMount: function() {
+					console.log("挂载前：");
+					console.log(this.$el);
+				},
+				mounted: function() {
+					console.log("挂载后：");
+					console.log(this.$el);
+				},
+				beforeUpdate: function() {
+					console.log("实例更新前：");
+					console.log(this.msg);
+					console.log(this.$el);
+				},
+				updated: function() {
+					console.log("实例更新后：");
+					console.log(this.msg);
+					console.log(this.$el);
+				},
+				beforeDestroy: function() {
+					console.log("实例销毁前：");
+					console.log(this.msg);
+				},
+				destroyed: function() {
+					console.log("实例销毁后：");
+					console.log(this.msg);
+				}
+			});
+
+			function destroy() {
+				app1.$destroy();
+			}
+		</script>
+	</body>
+
+</html>

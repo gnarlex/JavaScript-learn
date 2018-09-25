@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue watch实例方法</title>
+
+	</head>
+
+	<body>
+		<div id="app1">
+			<p>
+				a:
+				<input type="text" v-model="a" />{{a}}<br/> b:
+				<input type="text" v-model="b" />{{b}}<br/> c:
+				<input type="text" v-model="c.x.y.z" />{{c.x.y.z}}<br/> d:
+				<input type="text" v-model="d" />{{d}}<br/>
+			</p>
+			<p>
+				n:<input type="text" v-model="c.x.y.n" />{{c.x.y.n}}
+			</p>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					a: 1,
+					b: 2,
+					c: {
+						x: {
+							y: {
+								z: 3,
+								n: 3
+							}
+						}
+					},
+					d: 4
+				},
+				watch: {
+					a: function(val, oldVal) {
+						console.log('a新: %5s, 原: %5s', val, oldVal);
+					},
+					// 方法名
+					b: 'watchb',
+					//对象，深度监视
+					c: {
+						handler: function(val, oldVal) {
+							console.log('c新: %5s, 原: %5s', JSON.stringify(val), JSON.stringify(oldVal));
+						},
+						deep: true
+					},
+					//立即监视
+					d: {
+						handler: function(val, oldVal) {
+							console.log('d新: %5s, 原: %5s', val, oldVal);
+						},
+						immediate: true //设置初始值时也将调用
+					}
+				},
+				methods: {
+					watchb: function(val, oldVal) {
+						console.log('b新: %5s, 原: %5s', val, oldVal);
+					}
+				}
+
+			});
+			
+			var unwatch = app1.$watch(
+				function() {
+					return this.a + this.b
+				},
+				function(newVal, oldVal) {
+					// 做点什么
+					console.log(newVal, oldVal);
+				}
+			)
+			unwatch();
+ 
+			// 不起作用???
+			var watchb = function(val, oldVal) {
+				console.log('b新: %5s, 原: %5s', val, oldVal);
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>番外: 箭头函数初试</title>
+
+	</head>
+
+	<body>
+		<div id="app1">
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var m1 = a => a + 1;
+			console.log(m1(100));
+			//约等于
+			var m2 = function(a) {
+				return a + 1;
+			}
+			console.log(m2(100));
+
+			var m3 = (a, b) => a + b;
+			console.log(m3(100, 1));
+
+			var m4 = (a, b) => {
+				a++;
+				b++;
+				return a + b;
+			};//如果方法体中有多个表达式，则需要大括号与return
+			  console.log(m4(100,200));
+		</script>
+	</body>
+
+</html>
