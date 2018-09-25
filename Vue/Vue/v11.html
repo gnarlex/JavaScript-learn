@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 手动挂载</title>
+		<style>
+			#app1 {
+				color: red;
+			}
+			
+			#app2 {
+				color: blue;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app1">
+		</div>
+		<div id="app2">
+		</div>
+		<button type="button" onclick="loaddata1()">手动挂载1</button>
+		<button type="button" onclick="loaddata2()">手动挂载2</button>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				template: "<h2>{{msg}}</h2>",
+				data: {
+					msg: "Hello Vue2!"
+				}
+			});
+
+			var loaddata1 = function() {
+				app1.$mount();
+				document.getElementById("app1").appendChild(app1.$el);
+			}
+
+			var loaddata2 = function() {
+				app1.$mount();
+				document.getElementById("app2").appendChild(app1.$el);
+			}
+		</script>
+	</body>
+
+</html>
