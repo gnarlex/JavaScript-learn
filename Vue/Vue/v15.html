@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 计算属性</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			姓：<input v-model="x" /> 名：
+			<input v-model="m" /> 姓名：
+			<input v-model="xm" />
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					x: "",
+					m: ""
+				},
+				computed: {
+					xm: {
+						get: function() {
+							return this.x + this.m;
+						},
+						set: function(value) {
+							 this.x=value.substring(0,1);
+                            this.m=value.substring(1);
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

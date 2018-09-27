@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue class和style绑定</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<div class="static" v-bind:class="{active:isActive,'text-danger':hasError}">测试</div>
+		</div>
+
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					isActive: true,
+					hasError: false
+				}
+
+			});
+		</script>
+	</body>
+
+</html>

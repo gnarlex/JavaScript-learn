@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 观察者watch</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<p>
+				请输入您的问题:
+				<input v-model="question">
+			</p>
+			<p>{{ answer }}</p>
+			<p>
+				<img v-bind:src="src" />
+			</p>
+		</div>
+		<script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js">
+		</script>
+
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					question: '',
+					answer: '您问我一个问题我会给您一个答案！',
+					src: ""
+				},
+				watch: {
+					//当question发生变化时,answer变化
+					question: function() {
+						this.answer = "等待您的输入...";
+						this.getAnswer();
+					}
+				},
+				methods: {
+					getAnswer: _.debounce(
+						function() {
+							var vm = this;
+							if(this.question.indexOf('?') === -1) {
+								vm.answer = '问题请以问号（？）结束'
+								return;
+							}
+							vm.answer = '让我想想...';
+							axios.get('https://yesno.wtf/api')
+								.then(function(response) {
+									vm.answer = _.capitalize(response.data.answer);
+									vm.src = response.data.image;
+									console.log(response);
+								})
+								.catch(function(error) {
+									vm.answer = '发生了错误，不能调用该应用程序接口' + error
+								})
+						},
+						// 这是我们为用户停止输入等待的毫秒数
+						500
+					)
+				}
+			});
+		</script>
+	</body>
+
+</html>

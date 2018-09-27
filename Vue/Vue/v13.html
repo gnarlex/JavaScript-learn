@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 指令v-</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<div>
+				等级A-C：<input v-model="type" />
+			</div>
+			<div v-if="type === 'A'">
+				A优秀
+			</div>
+			<div v-else-if="type === 'B'">
+				B良好
+			</div>
+			<div v-else-if="type === 'C'">
+				C及格
+			</div>
+			<div v-else>
+				D其它
+			</div>
+		</div> 
+		
+		<div id='app2'>
+			<div>
+				Range A-C: <input v-model="type" @keyup.13="submit_click($event)" />
+			</div>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					isShow:true,
+					type:'D' 
+				}
+			});
+			var app2 = new Vue({
+				el: "#app2",
+				data: {
+					isShow:true,
+					type:'D' 
+				},
+				methods:{
+					submit_click:function(e){
+						if(confirm("确认要提交吗?")){
+							console.log(e);
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>
