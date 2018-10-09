@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>ES6 新增的一些数组方法</title>
+	</head>
+
+	<body>
+
+		<script type="text/javascript">
+			// indexOf
+			function indexOf_old(val) {
+				var arr = ['apple', 'orange', 'pear'],
+					found = false;
+				for(var i = 0; i < arr.length; i++) {
+					if(val === arr.length[i])
+						return i;
+					else
+						return -1;
+				}
+			}
+
+			var arr = ['apple', 'orange', 'pear'];
+			console.log(arr.indexOf("apple"));
+
+			// filter
+			var arr = [{
+					"name": "apple",
+					"count": 2
+				},
+				{
+					"name": "orange",
+					"count": 5
+				},
+				{
+					"name": "pear",
+					"count": 3
+				},
+				{
+					"name": "orange",
+					"count": 16
+				},
+			];
+
+			var newArr = [];
+			for(var i = 0, l = arr.length; i < l; i++) {
+				if(arr[i].name === "orange") {
+					newArr.push(arr[i]);
+				}
+			}
+			console.log("Filter results:", JSON.stringify(newArr));
+
+			// 新 filter
+			var newArr2 = arr.filter(function(item) {
+				return item.name === "orange";
+			});
+			console.log("Filter results:", JSON.stringify(newArr2));
+
+			// forEach()迭代
+			for(var i = 0, l = arr.length; i < l; i++) {
+				console.log(arr[i]);
+			}
+
+			// 新forEach()
+			arr.forEach(function(item, index) {
+				console.log(item);
+			});
+
+			// map()映射
+			// 对数组的每个元素进行一定映射, 返回一个新的数组
+			var oldArr = [{
+				first_name: "Colin",
+				last_name: "Toh"
+			}, {
+				first_name: "Addy",
+				last_name: "Osmani"
+			}, {
+				first_name: "Yehuda",
+				last_name: "Katz"
+			}];
+
+			function getNewArr() {
+				var newArr = [];
+
+				for(var i = 0, l = oldArr.length; i < l; i++) {
+					var item = oldArr[i];
+					item.full_name = [item.first_name, item.last_name].join(" ");
+					newArr[i] = item;
+				}
+
+				return newArr;
+			}
+
+			console.log(JSON.stringify(getNewArr()));
+
+			// 新map()
+			// map()是处理服务器返回数据时是一个非常实用的函数。
+			var newArr2 = oldArr.map(function(item, index) {
+				item.full_name = [item.first_name, item.last_name].join(" ");
+				return item;
+			})
+			console.log(JSON.stringify(newArr2));
+
+			// reduce()累加器
+			// 实现累加器的功能, 将数组的每个值（从左到右）将其降低到一个值
+			// 场景： 统计一个数组中有多少个不重复的单词
+			var arr4 = ["apple", "orange", "apple", "orange", "pear", "orange"];
+
+			function getWordCnt() {
+				var obj = {};
+				for(var i = 0; i < arr4.length; i++) {
+					var item = arr4[i];
+					obj[item] = (obj[item] + 1) || 1;
+
+				}
+				return obj;
+			}
+			console.log(getWordCnt());
+
+			// 新reduce()
+			var objs2 = arr.reduce(function(prev, next) {
+				console.log("prev:", JSON.stringify(prev));
+				console.log("next:", JSON.stringify(next));
+				prev[next] = (prev[next] + 1) || 1;
+				return prev;
+			}, {});
+			console.log(JSON.stringify(objs2));
+		</script>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					items: [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+				},
+				computed: {
+					even: function() {
+						return this.items.filter(function(n) {
+							return n % 2 === 0;
+						});
+					}
+				},
+				methods: {
+					odd: function() {
+						return this.items.filter(function(n) {
+							return n % 2 === 1;
+						});
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>
