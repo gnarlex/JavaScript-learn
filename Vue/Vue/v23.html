@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 数组的变异和非变异方法</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<ul>
+				<li v-for="n in items">
+					<h2>{{n}}</h2>
+				</li>
+			</ul>
+			<button @click="items[2]=55">修改第3个元素的值为55(无效)</button>
+			<button @click="items.splice(2,1,55)">修改第3个元素的值为55--splice(有效)</button>
+			<button @click="setValue">修改第3个元素的值为55(有效)</button>
+		</div>
+		<div id="app2">
+			<ul>
+				<li v-for="(value,key) in userProfile">
+					<h2>{{key}}---{{value}}</h2>
+				</li>
+			</ul> 
+			<button @click="setValue">修改第3个元素的值为55(有效)</button>
+
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					items: [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+				},
+				methods: {
+					setValue: function() {
+						Vue.set(this.items, 2, 55);
+					}
+				}
+
+			});
+			var app2 = new Vue({
+				el: "#app2",
+				data: {
+					userProfile: {
+						name: 'Anika'
+					}
+				},
+				methods: {
+					setValue: function() {
+						Vue.set(this.userProfile, "age", 55);
+					}
+				}
+
+			});
+		</script>
+	</body>
+
+</html>

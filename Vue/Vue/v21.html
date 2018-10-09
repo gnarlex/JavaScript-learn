@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 列表渲染---Todo List 实现</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<label>任务: </label><input type="text" v-model="newTask" placeholder="新建一个任务" @keyup.enter="addList" />
+			<ul>
+				<li is="todoItem" v-for="(item,index) in todolist" v-bind:title="item" @remove="removeItem(index)"></li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			Vue.component("todoItem", {
+				template: "<li>{{title}} <button type='button' @click='$emit(\"remove\")'> X </button></li>",
+				props: ['title']
+			});
+
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					newTask: "",
+					todolist: ['第一项','第二项','第三项','第四项']
+				},
+				methods: {
+					addList: function(value) {
+						if(confirm("是否确认添加")) {
+							this.todolist.push(this.newTask);
+							this.newTask = "";
+						}
+					},
+					removeItem: function(index) {
+						if(confirm('确定要移除吗？')) {
+							this.todolist.splice(index, 1);
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

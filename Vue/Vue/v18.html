@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 条件渲染</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<button type="button" v-on:click="isShow=!isShow">toggle isShow</button>
+			<template v-if="!isShow">
+				<p>item1</p>
+				<p>item2</p>
+				<p>item3</p>
+			</template>
+			<template v-else>
+				<p>item4</p>
+				<p>item5</p>
+				<p>item6</p>
+			</template>
+			<template v-if="type ==='A'">
+				<p>A</p>
+			</template>
+			<template v-else-if="type ==='B'">
+				<p>B</p>
+			</template>
+			<template v-else-if="type ==='C'">
+				<p>C</p>
+			</template>
+			<template v-else>
+				<p>NOT A/B/C</p>
+			</template>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					isShow: true,
+					type: 'C'
+				}
+
+			});
+		</script>
+	</body>
+
+</html>

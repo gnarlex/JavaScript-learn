@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>vue 列表渲染</title>
+	</head>
+
+	<body>
+		<div id="app1">
+			<ul>
+				<template v-for="(item,index) in users">
+					<li>{{index}}</li>
+					<li>{{item.name}}</li>
+					<li>{{item.age}}</li>
+					<hr/>
+				</template>
+			</ul>
+
+			<h3>遍历对象中的所有属性value</h3>
+			<p v-for="value in product"> {{value}}
+			</p>
+			<h3>遍历对象中的所有属性value - key</h3>
+			<p v-for="(value,key) in product"> {{key}}---{{value}}
+			</p>
+
+			<h3>遍历对象中的所有属性value - key - index</h3>
+			<p v-for="(value,key,index) in product"> {{index}}---{{key}}---{{value}}
+			</p>
+
+			<h3>整数迭代 v-for</h3>
+			<span v-for="n in 20">
+                {{n}} - 
+            </span>
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var app1 = new Vue({
+				el: "#app1",
+				data: {
+					users: [{
+							name: "tom",
+							age: 18
+						},
+						{
+							name: "rose",
+							age: 87
+						},
+						{
+							name: "mark",
+							age: 16
+						}
+					],
+					product: {
+						name: "苹果",
+						price: 5.8,
+						unit: '千克'
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>
