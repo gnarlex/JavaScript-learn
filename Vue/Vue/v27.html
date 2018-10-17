@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>表单</title>
+	</head>
+
+	<body>
+		<div id='vm'>
+			<p>
+				<label>姓名</label>
+				<input v-model="name" type="text" /><br/>
+				<textarea v-model="name" rows="3" cols="30"></textarea>
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<label>爱好</label>
+				<input type="checkbox" v-for: "item in hobbies" v-bind:value="item" />
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<label>性别</label>
+				<input type="checkbox" v-for: "item in sex" v-bind:value="item" />
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<label>精通</label>
+
+				<select>
+					<option v-for="item in skills"></option>
+				</select>
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<label>擅长</label>
+				<!--静态绑定-->
+				<select v-model="select_jingtai" multiple>
+					<option>读书</option>
+					<option>写字</option>
+					<option>画画</option>
+				</select>
+				<label>值: </label><span>{{select_jingtai}}</span>(多选可以自动打包成数组)<br/>
+				<!--动态绑定-->
+				<select v-model="select_dongtai">
+					<option v-for="item in languages" v-bind:value="item.value">{{item.text}}</option>
+				</select>
+				<label>值: </label><span>{{select_dongtai}}</span><br/> 
+				对于单选按钮，勾选框及选择列表选项， v-model 绑定的 value 通常是静态字符串（对于勾选框是逻辑值）; 可以使用 v-bind 设置 value 为任意值,包括数组\对象等
+			</p>
+			<p>
+				<input type="checkbox" />同意本网站协定
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<input type="checkbox" />同意本网站协定
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<input type="checkbox" />同意本网站协定
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<input type="radio" name="sendMsg" />发送
+				<input type="radio" name="sendMsg" />不发送
+				<label>值: </label><span>{{name}}</span>
+			</p>
+			<p>
+				<label>等级</label>
+				<select>
+					<option v-for="item in languages"></option>
+				</select>
+				<label>值: </label><span>{{name}}</span>
+			</p>
+
+		</div>
+		<script type="text/javascript" src="js/vue.min.js">
+		</script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: "#vm",
+				data: {
+					name: '',
+					hobbies: ['代码', '运动', '音乐'],
+					sex: ['男', '女', '保密'],
+					skills: ['男', '女', '保密'],
+					languages: [{
+							value: '123',
+							text: 'C#'
+						}, {
+							value: {name:123},
+							text: 'Ruby'
+						},
+						{
+							value: 'Go',
+							text: 'Go'
+						},
+						{
+							value: 'PHP',
+							text: 'PHP'
+						}, {
+							value: 'Python',
+							text: 'Python'
+						}
+					],
+					select_jingtai: ['画画', '写字'],
+					select_dongtai: ['C#']
+
+				}
+			});
+		</script>
+	</body>
+
+</html>
