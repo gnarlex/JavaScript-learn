@@ -16,17 +16,27 @@
 			</p>
 			<p>
 				<label>爱好</label>
-				<input type="checkbox" v-for: "item in hobbies" v-bind:value="item" />
-				<label>值: </label><span>{{name}}</span>
+			   <input type="checkbox" v-model="hobbies" value="代码" id="hobbies1" />
+                <label for="hobbies1">代码</label>
+                <input type="checkbox" v-model="hobbies" value="运动" id="hobbies2" />
+                <label for="hobbies2">运动</label>
+                <input type="checkbox" v-model="hobbies" value="音乐" id="hobbies3" />
+                <label for="hobbies3">音乐</label> 值：{{hobbies}}
 			</p>
 			<p>
 				<label>性别</label>
-				<input type="checkbox" v-for: "item in sex" v-bind:value="item" />
-				<label>值: </label><span>{{name}}</span>
+				<!--<template v-for="item in sexlist" v-model="sex">
+					<input type="radio" name="sex" v-bind:value="item.value"  v-for="item in sexlist"/>{{item.value}}
+				</template>-->
+				<!--<input type="radio" name="sex" v-bind:value="item.value"  v-for="item in sexlist"/>{{item.value}}-->
+				<!--<input type="checkbox" v-bind:value="item.value" />{{item.value}}-->
+				<input type="radio" v-model="sex" value="男">男
+				<input type="radio" v-model="sex" value="女">女
+				<input type="radio" v-model="sex" value="保密">保密
+				<label>值: </label><span>{{sex}}</span>
 			</p>
 			<p>
-				<label>精通</label>
-
+				<label>精通</label> 
 				<select>
 					<option v-for="item in skills"></option>
 				</select>
@@ -45,8 +55,7 @@
 				<select v-model="select_dongtai">
 					<option v-for="item in languages" v-bind:value="item.value">{{item.text}}</option>
 				</select>
-				<label>值: </label><span>{{select_dongtai}}</span><br/> 
-				对于单选按钮，勾选框及选择列表选项， v-model 绑定的 value 通常是静态字符串（对于勾选框是逻辑值）; 可以使用 v-bind 设置 value 为任意值,包括数组\对象等
+				<label>值: </label><span>{{select_dongtai}}</span><br/> 对于单选按钮，勾选框及选择列表选项， v-model 绑定的 value 通常是静态字符串（对于勾选框是逻辑值）; 可以使用 v-bind 设置 value 为任意值,包括数组\对象等
 			</p>
 			<p>
 				<input type="checkbox" />同意本网站协定
@@ -81,14 +90,16 @@
 				el: "#vm",
 				data: {
 					name: '',
-					hobbies: ['代码', '运动', '音乐'],
-					sex: ['男', '女', '保密'],
+					hobbies:[],
+					sex:'', 
 					skills: ['男', '女', '保密'],
 					languages: [{
 							value: '123',
 							text: 'C#'
 						}, {
-							value: {name:123},
+							value: {
+								name: 123
+							},
 							text: 'Ruby'
 						},
 						{
