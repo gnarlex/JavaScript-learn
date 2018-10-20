@@ -16,12 +16,12 @@
 			</p>
 			<p>
 				<label>爱好</label>
-			   <input type="checkbox" v-model="hobbies" value="代码" id="hobbies1" />
-                <label for="hobbies1">代码</label>
-                <input type="checkbox" v-model="hobbies" value="运动" id="hobbies2" />
-                <label for="hobbies2">运动</label>
-                <input type="checkbox" v-model="hobbies" value="音乐" id="hobbies3" />
-                <label for="hobbies3">音乐</label> 值：{{hobbies}}
+				<input type="checkbox" v-model="hobbies" value="代码" id="hobbies1" />
+				<label for="hobbies1">代码</label>
+				<input type="checkbox" v-model="hobbies" value="运动" id="hobbies2" />
+				<label for="hobbies2">运动</label>
+				<input type="checkbox" v-model="hobbies" value="音乐" id="hobbies3" />
+				<label for="hobbies3">音乐</label> 值：{{hobbies}}
 			</p>
 			<p>
 				<label>性别</label>
@@ -36,11 +36,17 @@
 				<label>值: </label><span>{{sex}}</span>
 			</p>
 			<p>
-				<label>精通</label> 
-				<select>
-					<option v-for="item in skills"></option>
+				<label>精通</label>
+				<select v-model="skill1">
+					<option value="Java">Java</option>
+					<option value="前端">前端</option>
+					<option value="Oracle">Oracle</option>
+					<option value="">--请选择--</option>
 				</select>
-				<label>值: </label><span>{{name}}</span>
+				<select v-model="skill1">
+					<option v-for="item in skills">{{item}}</option>
+				</select>
+				<label>值: </label><span>{{skill1}}</span>
 			</p>
 			<p>
 				<label>擅长</label>
@@ -58,30 +64,31 @@
 				<label>值: </label><span>{{select_dongtai}}</span><br/> 对于单选按钮，勾选框及选择列表选项， v-model 绑定的 value 通常是静态字符串（对于勾选框是逻辑值）; 可以使用 v-bind 设置 value 为任意值,包括数组\对象等
 			</p>
 			<p>
-				<input type="checkbox" />同意本网站协定
-				<label>值: </label><span>{{name}}</span>
+				<input type="checkbox" v-model="isAllow" />同意本网站协定
+				<label>值: </label><span>{{isAllow}}</span>
 			</p>
 			<p>
-				<input type="checkbox" />同意本网站协定
-				<label>值: </label><span>{{name}}</span>
+				<input type="checkbox" v-model="isOk" v-bind:true-value="yes" v-bind:false-value="no" />同意本网站协定
+				<label>值: </label><span>{{isOk}}</span>
 			</p>
 			<p>
-				<input type="checkbox" />同意本网站协定
-				<label>值: </label><span>{{name}}</span>
+				<input type="checkbox" v-model="isOk2" v-bind:true-value="'yes'" v-bind:false-value="'no'" />同意本网站协定
+				<label>值: </label><span>{{isOk2}}</span>
 			</p>
 			<p>
-				<input type="radio" name="sendMsg" />发送
-				<input type="radio" name="sendMsg" />不发送
-				<label>值: </label><span>{{name}}</span>
+				<input type="radio" name="sendMsg" v-model="isSend" value="发送" />发送
+				<input type="radio" name="sendMsg" v-model="isSend" value="不发送" />不发送
+				<label>值: </label><span>{{isSend}}</span>
 			</p>
 			<p>
 				<label>等级</label>
-				<select>
-					<option v-for="item in languages"></option>
+				<select v-model="grade">
+					<option :value="{level:1}">A级</option>
+					<option :value="{level:2}">B级</option>
+					<option v-bind:value="{level:3}">C级</option>
 				</select>
-				<label>值: </label><span>{{name}}</span>
+				值：{{grade.level}}
 			</p>
-
 		</div>
 		<script type="text/javascript" src="js/vue.min.js">
 		</script>
@@ -90,9 +97,10 @@
 				el: "#vm",
 				data: {
 					name: '',
-					hobbies:[],
-					sex:'', 
-					skills: ['男', '女', '保密'],
+					hobbies: [],
+					sex: '',
+					skill1: '',
+					skills: ['前端', '后端', '数据库'],
 					languages: [{
 							value: '123',
 							text: 'C#'
@@ -115,7 +123,17 @@
 						}
 					],
 					select_jingtai: ['画画', '写字'],
-					select_dongtai: ['C#']
+					select_dongtai: ['C#'],
+					isAllow: '',
+					isOk: "同意",
+					yes: '同意',
+					no: '不同意',
+					isOk2: "yes",
+					isSend: '不发送',
+					grade: {
+						name: "技术等级",
+						level: 0
+					}
 
 				}
 			});
