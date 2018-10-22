@@ -8,12 +8,41 @@
 
 	<body>
 		<div id='vm'>
+			<h2>.lazy</h2>
+			<p>
+				<label for="name">姓名</label>
+				<input v-model="name" id="name" name="name" value="tom" /> 值：
+				<span v-text="name"></span>
+			</p>
+			<p>
+				<label for="name">姓名</label>
+				<input v-model.lazy="name" id="name" name="name" value="tom" /> 值：
+				<span v-text="name"></span>
+			</p>
+			<p>
+				<label for="name">年龄</label>
+				<input v-model.number="age" id="age" name="age" /> 值：
+				<span v-text="age"></span>类型：{{typeof(age)}}
+			</p>
+			<p>
+				<label for="name">自我介绍</label>
+				<input v-model.trim="memo" id="memo" name="memo" /> 值：
+				<span v-text="memo"></span>结束
+				<div>注意, 初始化不会执行trim, 只有直接编辑时会执行</div>
+			</p>
 
 		</div>
 		<script type="text/javascript" src="js/vue.min.js">
 		</script>
 		<script type="text/javascript">
-			
+			var vm = new Vue({
+				el: "#vm",
+				data: {
+					name: "",
+					age: "",
+					memo: "  我是 一个 好学生 "
+				}
+			});
 		</script>
 	</body>
 
