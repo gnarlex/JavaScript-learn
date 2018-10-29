@@ -8,19 +8,28 @@
 
 	<body>
 		<div id='vm'>
-		 <fairo-template></fairo-template>
+			<fairo-template></fairo-template>
+			<fairo-template2></fairo-template2>
+
 		</div>
 		<script type="text/javascript" src="js/vue.min.js">
 		</script>
+		<template id='template2'>
+			<div>这是一个组件-使用了template元素</div>
+		</template>
 		<script type="text/x-template" id="template1">
-			<div>这是一个组件</div>
+			<div>这是一个组件-使用了JavaScript-template方法</div>
 		</script>
 		<script type="text/javascript">
-			Vue.component('fairo-template',{
-				template:"#template1"
+			Vue.component('fairo-template', {
+				template: "#template1"
 			});
+			Vue.component('fairo-template2', {
+				template: "#template2"
+			});
+
 			var vm = new Vue({
-			 el:'#vm' 
+				el: '#vm'
 			});
 		</script>
 	</body>
